@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import LoginComponent from './components/loginComponent/loginComponent';
+import HomeComponent from './components/homeComponent/homeComponent';
+import NavbarComponent from './components/navbarComponent/navBarComponent'
+import loginAction from '../src/store/actions/loginAction';
+import { connect } from 'react-redux';
+import BlogDetailsComponent from './components/blogDetailsComponent/blogDetailsComponent';
+import BlogEditForm from './components/blogEditForm/blogEditForm';
+import AllPostComponent from './components/allPostComponent/allPostComponent';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  // componentDidMount(){
+  //   this.props.loginDispatch();
+  // }
+  render(){
+    return(
+      <React.Fragment>
+        
+       <BrowserRouter>
+       <NavbarComponent/>
+          <Switch>
+            <Route exact path='/' component={HomeComponent}/>  
+            <Route path='/login' component={LoginComponent}/>
+            <Route path='/home' component={LoginComponent}/>
+            <Route path='/blog-detail/:id' component={BlogDetailsComponent}/>
+            <Route path='/addpostrn' component={BlogEditForm}/>
+            <Route path='/all-post' component={AllPostComponent}/>
+          </Switch>
+       </BrowserRouter>
+      </React.Fragment>
+    )
+  }
 }
-
-export default App;
+const mapDispatchToProps = (dispatch)=> {
+  return {
+    loginDispatch: ()=>dispatch(loginAction())
+  }
+}
+export default connect(null,mapDispatchToProps)(App);
